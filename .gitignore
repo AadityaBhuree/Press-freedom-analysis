@@ -28,7 +28,6 @@ env.bak/
 venv.bak/
 
 # Project generated artifacts
-models/
 X_train.csv
 X_test.csv
 y_train.csv

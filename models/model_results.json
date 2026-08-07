@@ -1,0 +1,57 @@
+[
+    {
+        "Model": "Logistic Regression",
+        "CV_Accuracy": 0.8665024630541872,
+        "CV_F1_Macro": 0.8074784104784104,
+        "Test_Accuracy": 0.8888888888888888,
+        "Test_Precision_Macro": 0.903968253968254,
+        "Test_Recall_Macro": 0.8333333333333333,
+        "Test_F1_Macro": 0.8495173453996984,
+        "Test_F1_Weighted": 0.88336685101391,
+        "Model_File": "logistic_regression.joblib"
+    },
+    {
+        "Model": "K-Nearest Neighbors",
+        "CV_Accuracy": 0.8389162561576354,
+        "CV_F1_Macro": 0.8099006607427661,
+        "Test_Accuracy": 0.8888888888888888,
+        "Test_Precision_Macro": 0.9321428571428572,
+        "Test_Recall_Macro": 0.9083333333333332,
+        "Test_F1_Macro": 0.9156593406593407,
+        "Test_F1_Weighted": 0.8891941391941391,
+        "Model_File": "k-nearest_neighbors.joblib"
+    },
+    {
+        "Model": "Support Vector Machine",
+        "CV_Accuracy": 0.8458128078817733,
+        "CV_F1_Macro": 0.7715332094805779,
+        "Test_Accuracy": 0.9166666666666666,
+        "Test_Precision_Macro": 0.9464285714285715,
+        "Test_Recall_Macro": 0.85,
+        "Test_F1_Macro": 0.8796153846153846,
+        "Test_F1_Weighted": 0.9132478632478632,
+        "Model_File": "support_vector_machine.joblib"
+    },
+    {
+        "Model": "Random Forest",
+        "CV_Accuracy": 0.9790640394088671,
+        "CV_F1_Macro": 0.9465587044534413,
+        "Test_Accuracy": 1.0,
+        "Test_Precision_Macro": 1.0,
+        "Test_Recall_Macro": 1.0,
+        "Test_F1_Macro": 1.0,
+        "Test_F1_Weighted": 1.0,
+        "Model_File": "random_forest.joblib"
+    },
+    {
+        "Model": "XGBoost",
+        "CV_Accuracy": 0.9576354679802958,
+        "CV_F1_Macro": 0.9425880084827453,
+        "Test_Accuracy": 1.0,
+        "Test_Precision_Macro": 1.0,
+        "Test_Recall_Macro": 1.0,
+        "Test_F1_Macro": 1.0,
+        "Test_F1_Weighted": 1.0,
+        "Model_File": "xgboost.joblib"
+    }
+]
