@@ -4,13 +4,15 @@
     <em>End-to-end ML pipeline for predicting and analyzing global press freedom classifications using socioeconomic, political, and safety indicators.</em>
   </p>
   <p align="center">
+    <a href="https://aadityabhuree-press-freedom-analysis-app-e5re0p.streamlit.app/"><img src="https://img.shields.io/badge/Live_App-Streamlit_Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" /></a>
     <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
     <img src="https://img.shields.io/badge/scikit--learn-1.2+-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white" />
     <img src="https://img.shields.io/badge/XGBoost-3.x-006ACC?style=for-the-badge&logo=xgboost&logoColor=white" />
-    <img src="https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
     <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" />
   </p>
 </p>
+
+> 🌐 **Live Interactive Web Dashboard**: [https://aadityabhuree-press-freedom-analysis-app-e5re0p.streamlit.app/](https://aadityabhuree-press-freedom-analysis-app-e5re0p.streamlit.app/)
 
 ---
 
