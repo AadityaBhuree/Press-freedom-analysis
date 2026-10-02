@@ -62,12 +62,22 @@ def run_preprocessing(data_path="dataset.csv", output_dir="."):
     print("Saved target label mapping to 'models/label_mapping.json'")
 
     # 4. Feature Selection & Categorical Encoding
-    # Drop identifier columns and raw target string column
-    drop_cols = ['Country', 'ISO Code', 'Situation', 'target']
+    # Drop identifier columns, target column, and target-defining leakage columns
+    # In RSF methodology, Situation is computed directly from Global Score, and Position is its rank.
+    # To prevent trivial data leakage, we predict Situation purely from exogenous indicators.
+    drop_cols = [
+        'Country', 'ISO Code', 'Situation', 'target',
+        'Global Score', 'Position 2022', 'Position 2021', 'Position_Change'
+    ]
     feature_cols = [c for c in df.columns if c not in drop_cols]
     
     X = df[feature_cols].copy()
     y = df['target'].copy()
+    
+    # Save feature names list for pipeline & inference consistency
+    with open(os.path.join("models", "feature_names.json"), "w") as f:
+        json.dump(feature_cols, f, indent=4)
+    print("Saved feature names to 'models/feature_names.json'")
     
     # Encode categorical feature 'Region'
     region_le = LabelEncoder()
