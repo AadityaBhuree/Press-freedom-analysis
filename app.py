@@ -99,9 +99,6 @@ with tab2:
         st.subheader(f"Current Record for {selected_country}")
         st.write(f"**Actual Situation**: `{country_data['Situation']}` | **2022 Rank**: #{country_data['Position 2022']} | **Region**: {country_data['Region']}")
         
-        pos_2022 = float(country_data['Position 2022'])
-        pos_2021 = float(country_data['Position 2021'])
-        glob_score = float(country_data['Global Score'])
         pol_score = float(country_data['Politic Score'])
         econ_score = float(country_data['Economic Score'])
         leg_score = float(country_data['Legislative Score'])
@@ -114,28 +111,22 @@ with tab2:
         region = country_data['Region']
     else:
         c1, c2, c3 = st.columns(3)
-        region = c1.selectbox("Region", df['Region'].unique())
-        pos_2022 = c2.number_input("Position 2022", 1, 180, 50)
-        pos_2021 = c3.number_input("Position 2021", 1, 180, 55)
+        region = c1.selectbox("Region", sorted(df['Region'].unique()))
+        pol_score = c2.slider("Politic Score", 0.0, 100.0, 60.0)
+        econ_score = c3.slider("Economic Score", 0.0, 100.0, 50.0)
         
         c4, c5, c6 = st.columns(3)
-        pol_score = c4.slider("Politic Score", 0.0, 100.0, 60.0)
-        econ_score = c5.slider("Economic Score", 0.0, 100.0, 50.0)
-        leg_score = c6.slider("Legislative Score", 0.0, 100.0, 65.0)
+        leg_score = c4.slider("Legislative Score", 0.0, 100.0, 65.0)
+        soc_score = c5.slider("Social Score", 0.0, 100.0, 70.0)
+        sec_score = c6.slider("Security Score", 0.0, 100.0, 75.0)
         
-        c7, c8, c9 = st.columns(3)
-        soc_score = c7.slider("Social Score", 0.0, 100.0, 70.0)
-        sec_score = c8.slider("Security Score", 0.0, 100.0, 75.0)
-        glob_score = c9.slider("Global Score", 0.0, 100.0, 64.0)
-        
-        c10, c11, c12, c13 = st.columns(4)
-        jk = c10.number_input("Journalist Killed", 0, 50, 0)
-        mwk = c11.number_input("Media Workers Killed", 0, 50, 0)
-        ji = c12.number_input("Journalist Imprisoned", 0, 100, 0)
-        mwi = c13.number_input("Media Workers Imprisoned", 0, 50, 0)
+        c7, c8, c9, c10 = st.columns(4)
+        jk = c7.number_input("Journalist Killed", 0, 50, 0)
+        mwk = c8.number_input("Media Workers Killed", 0, 50, 0)
+        ji = c9.number_input("Journalist Imprisoned", 0, 100, 0)
+        mwi = c10.number_input("Media Workers Imprisoned", 0, 50, 0)
 
     # Derived Features
-    pos_change = pos_2021 - pos_2022
     press_danger = jk + mwk + ji + mwi
     subscores = [pol_score, econ_score, leg_score, soc_score, sec_score]
     score_var = float(np.var(subscores))
@@ -144,11 +135,16 @@ with tab2:
     
     region_encoded = int(region_le.transform([region])[0]) if region_le else 0
     
-    # Feature vector matching preprocessed training set
-    feature_names = ['Region', 'Position 2022', 'Position 2021', 'Global Score', 'Politic Score', 'Economic Score', 'Legislative Score', 'Social Score', 'Security Score', 'Journalist Killed', 'Media Workers Killed', 'Journalist Imprisoned', 'Media Workers Imprisoned', 'Position_Change', 'Press_Danger_Index', 'Score_Variance', 'Score_Range', 'Score_Min']
+    # Feature vector matching leak-free preprocessed training set (14 exogenous indicators)
+    feature_names = [
+        'Region', 'Politic Score', 'Economic Score', 'Legislative Score',
+        'Social Score', 'Security Score', 'Journalist Killed',
+        'Media Workers Killed', 'Journalist Imprisoned', 'Media Workers Imprisoned',
+        'Press_Danger_Index', 'Score_Variance', 'Score_Range', 'Score_Min'
+    ]
     input_vector = pd.DataFrame([[
-        region_encoded, pos_2022, pos_2021, glob_score, pol_score, econ_score, leg_score, soc_score, sec_score,
-        jk, mwk, ji, mwi, pos_change, press_danger, score_var, score_range, score_min
+        region_encoded, pol_score, econ_score, leg_score, soc_score, sec_score,
+        jk, mwk, ji, mwi, press_danger, score_var, score_range, score_min
     ]], columns=feature_names)
     
     input_scaled = pd.DataFrame(scaler.transform(input_vector), columns=feature_names) if scaler else input_vector

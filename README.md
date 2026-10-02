@@ -38,51 +38,44 @@ The pipeline covers **Exploratory Data Analysis**, **Feature Engineering**, **Mu
 |---|---|
 | **Source** | World Press Freedom Index 2022 (Reporters Without Borders) |
 | **Countries** | 179 (after cleaning) |
-| **Features** | 18 (13 original + 5 engineered) |
-| **Target** | `Situation` — 5-class ordinal label |
+| **Features** | 14 exogenous indicators (10 raw contextual + 4 engineered) |
+| **Target** | `Situation` — 5-class ordinal label (Good, Satisfactory, Problematic, Difficult, Very Serious) |
+| **Leakage Prevention** | Strictly dropped `Global Score`, `Position 2022`, `Position 2021`, and `Position_Change` to ensure true predictive learning from underlying contextual indicators rather than target-defining scores. |
 
-### Raw Feature Set
+### Exogenous Indicator Set (14 Features)
 
-| Feature | Description |
-|---|---|
-| `Global Score` | Overall press freedom score (0–100) |
-| `Politic Score` | Political context indicator |
-| `Economic Score` | Economic context indicator |
-| `Legislative Score` | Legal framework indicator |
-| `Social Score` | Sociocultural context indicator |
-| `Security Score` | Safety/security environment indicator |
-| `Position 2022 / 2021` | World ranking positions |
-| `Journalist Killed` | Count of journalists killed |
-| `Media Workers Killed` | Count of media workers killed |
-| `Journalist Imprisoned` | Count of journalists imprisoned |
-| `Media Workers Imprisoned` | Count of media workers imprisoned |
-| `Region` | Geographic region |
-
-### Engineered Features
-
-| Feature | Formula / Logic |
-|---|---|
-| `Position_Change` | `Position 2021 − Position 2022` (positive = improved rank) |
-| `Press_Danger_Index` | Sum of all killed + imprisoned counts |
-| `Score_Variance` | Variance across 5 sub-scores (measures internal imbalance) |
-| `Score_Range` | Max − Min of the 5 sub-scores |
-| `Score_Min` | Minimum sub-score value |
+| Feature | Category | Description |
+|---|---|---|
+| `Region` | Categorical | Geographic region (label encoded) |
+| `Politic Score` | Contextual Sub-score | Political framework & independence indicator (0–100) |
+| `Economic Score` | Contextual Sub-score | Economic constraints & media owner concentration (0–100) |
+| `Legislative Score` | Contextual Sub-score | Legal framework & press protections (0–100) |
+| `Social Score` | Contextual Sub-score | Sociocultural environment & public trust (0–100) |
+| `Security Score` | Contextual Sub-score | Physical safety & digital security indicator (0–100) |
+| `Journalist Killed` | Danger Metric | Verified count of journalists killed |
+| `Media Workers Killed` | Danger Metric | Verified count of media support workers killed |
+| `Journalist Imprisoned` | Danger Metric | Verified count of journalists currently detained |
+| `Media Workers Imprisoned` | Danger Metric | Verified count of media support workers detained |
+| `Press_Danger_Index` | Engineered | Composite danger index (sum of killed & detained journalists) |
+| `Score_Variance` | Engineered | Statistical variance across 5 sub-scores (identifies structural imbalance) |
+| `Score_Range` | Engineered | Spread between strongest and weakest sub-dimension |
+| `Score_Min` | Engineered | Lowest sub-score among the 5 institutional pillars |
 
 ---
 
 ## 🏆 Model Performance Results
 
-Five classifiers were trained and evaluated using **5-Fold Stratified Cross-Validation** on an 80/20 train-test split:
+Five classifiers were trained and evaluated using **5-Fold Stratified Cross-Validation** on an 80/20 train-test split without any target label leakage:
 
-| Model | CV Accuracy | Test Accuracy | Test Precision | Test Recall | Test F1 (Macro) |
+| Model | CV Accuracy | Test Accuracy | Test Precision (Macro) | Test Recall (Macro) | Test F1 (Macro) |
 |:---|:---:|:---:|:---:|:---:|:---:|
-| **🥇 Random Forest** | **97.91%** | **100.00%** | **100.00%** | **100.00%** | **1.0000** |
-| **🥈 XGBoost** | **95.76%** | **100.00%** | **100.00%** | **100.00%** | **1.0000** |
-| 🥉 SVM (RBF) | 84.58% | 91.67% | 94.64% | 85.00% | 0.8796 |
-| KNN (k=5) | 83.89% | 88.89% | 93.21% | 90.83% | 0.9157 |
-| Logistic Regression | 86.65% | 88.89% | 90.40% | 83.33% | 0.8495 |
+| **🥇 Random Forest** | **90.20%** | **97.22%** | **98.46%** | **97.50%** | **0.9787** |
+| **🥈 XGBoost** | **87.36%** | **94.44%** | **96.24%** | **87.50%** | **0.9002** |
+| 🥉 SVM (RBF) | 83.23% | 94.44% | 95.96% | 87.50% | 0.9003 |
+| Logistic Regression | 86.72% | 91.67% | 93.10% | 85.00% | 0.8716 |
+| KNN (k=5) | 81.80% | 88.89% | 92.86% | 90.83% | 0.9159 |
 
-> **Best Model**: Random Forest achieves perfect test set classification with 97.91% cross-validation accuracy, indicating strong generalization on this dataset.
+> **Best Model**: **Random Forest** achieved the highest generalization with **90.20% 5-fold cross-validation accuracy** and **97.22% test accuracy** (Macro F1: 0.9787), correctly classifying countries across all 5 tiers of press freedom from purely exogenous indicators.
 
 ---
 
