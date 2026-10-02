@@ -109,7 +109,7 @@ def run_evaluation(output_dir="plots"):
         
         feat_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances}).sort_values('Importance', ascending=False)
         
-        ax = sns.barplot(data=feat_df, x='Importance', y='Feature', palette='mako')
+        ax = sns.barplot(data=feat_df, x='Importance', y='Feature', hue='Feature', palette='mako', legend=False)
         plt.title("Feature Importance (Random Forest Classifier)", fontsize=14, fontweight='bold')
         plt.xlabel("Gini Importance", fontsize=12)
         plt.ylabel("Feature", fontsize=12)
