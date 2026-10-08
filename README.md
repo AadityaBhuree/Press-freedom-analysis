@@ -5,9 +5,11 @@
   </p>
   <p align="center">
     <a href="https://aadityabhuree-press-freedom-analysis-app-e5re0p.streamlit.app/"><img src="https://img.shields.io/badge/Live_App-Streamlit_Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" /></a>
+    <a href="https://github.com/AadityaBhuree/Press-freedom-analysis/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/AadityaBhuree/Press-freedom-analysis/ci.yml?branch=master&style=for-the-badge&label=CI&logo=githubactions&logoColor=white" /></a>
+    <img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+    <img src="https://img.shields.io/badge/Tests-6%2F6_Passing-10B981?style=for-the-badge&logo=pytest&logoColor=white" />
     <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" />
     <img src="https://img.shields.io/badge/scikit--learn-1.2+-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white" />
-    <img src="https://img.shields.io/badge/XGBoost-3.x-006ACC?style=for-the-badge&logo=xgboost&logoColor=white" />
     <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" />
   </p>
 </p>
@@ -197,10 +199,20 @@ python train.py            # Step 3: Model Training & Cross-Validation
 python evaluate.py         # Step 4: Evaluation & Visualization
 ```
 
-### Launch the Interactive Web Dashboard
+### Launch the Interactive Web Dashboard (Local)
 
 ```bash
 streamlit run app.py
+```
+
+### Launch with Docker Container (Production)
+
+```bash
+# Build the production container
+docker build -t press-freedom-app .
+
+# Run the containerized Streamlit dashboard on port 8501
+docker run -d -p 8501:8501 --name press_freedom press-freedom-app
 ```
 
 Open [http://localhost:8501](http://localhost:8501) in your browser to access:
